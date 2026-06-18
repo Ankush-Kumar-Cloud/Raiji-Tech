@@ -14,7 +14,7 @@ const postSchema = new mongoose.Schema(
 
     category: {
       type: mongoose.Types.ObjectId,
-      ref: "Category",
+      ref: "category",
       required: true,
     },
 
