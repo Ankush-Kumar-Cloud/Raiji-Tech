@@ -13,7 +13,7 @@ postRouter.get("/:slug", getSinglePost);
 
 postRouter.put("/:id",protect, updatePost);
 
-postRouter.delete("/:",protect, deletePost);
+postRouter.delete("/:id",protect, deletePost);
 
 
 export default postRouter;

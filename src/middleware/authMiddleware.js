@@ -4,7 +4,7 @@ export const protect = (req, res, next) =>{
     const authHeader = req.headers.authorization;
 
     if(!authHeader){
-      res.status(401).json({
+      return res.status(401).json({
         message: "No Token"
       })
     }

@@ -5,6 +5,8 @@ import jobRouter from "./src/routers/jobRouter.js";
 import userRouter from "./src/routers/userRouter.js"
 import categoryRouter from "./src/routers/categoryRouter.js"
 import postRouter from "./src/routers/postRouter.js";
+import DashBordRoute from "./src/routers/dashBoardRouter.js";
+import uploadRoute from "./src/routers/uploadRoute.js";
 
 dotenv.config();
 
@@ -25,6 +27,13 @@ app.use("/api/auth", userRouter);
 app.use("/api/categories", categoryRouter)
 
 app.use("/api/posts", postRouter)
+
+app.use("/api/upload", uploadRoute)
+
+app.use(
+  "/api/dashboard",
+  DashBordRoute
+);
 
 const PORT = process.env.PORT || 4000;
 
