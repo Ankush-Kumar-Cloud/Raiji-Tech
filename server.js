@@ -7,6 +7,7 @@ import categoryRouter from "./src/routers/categoryRouter.js"
 import postRouter from "./src/routers/postRouter.js";
 import DashBordRoute from "./src/routers/dashBoardRouter.js";
 import uploadRoute from "./src/routers/uploadRoute.js";
+import adminRout from "./src/routers/adminRouter.js";
 
 dotenv.config();
 
@@ -34,6 +35,9 @@ app.use(
   "/api/dashboard",
   DashBordRoute
 );
+
+app.use("/api/admin", adminRout);
+
 
 const PORT = process.env.PORT || 4000;
 

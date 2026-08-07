@@ -44,12 +44,26 @@ const postSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: "User",
     },
+
+    status: {
+      type: String,
+      enum: ["draft", "published", "archived"],
+      default: "published",
+    },
+
+    isFeatured: {
+      type: Boolean,
+      default: false,
+    },
+
+    views: {
+      type: Number,
+      default: 0,
+    },
   },
 
   { timestamps: true },
 );
-
-
 
 const Post = mongoose.model("Post", postSchema);
 
