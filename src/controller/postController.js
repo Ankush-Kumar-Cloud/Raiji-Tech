@@ -1,17 +1,79 @@
 import Post from "../model/Post.js";
+import slugify from "slugify";
+import Category from "../model/Category.js";
 
-export const createPosts = async (req, res) => {
-  try {
-    const post = await Post.create({ ...req.body, createdBy: req.user.id });
+export const createPosts = async (req,res)=>{
+    try {
 
-    res.status(201).json(post);
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
-  }
-};
+        const {
+            title,
+            category,
+            shortDescription,
+            content,
+            thumbnail,
+            pdfLink,
+            applyLink,
+            lastDate
+        } = req.body;
 
+
+        // Check category exists
+
+        const categoryExist =
+            await Category.findById(category);
+
+
+        if(!categoryExist){
+            return res.status(404).json({
+                success:false,
+                message:"Category not found"
+            });
+        }
+
+
+        const post = await Post.create({
+
+            title,
+
+            slug: slugify(title,{
+                lower:true
+            }),
+
+            category,
+
+            shortDescription,
+
+            content,
+
+            thumbnail,
+
+            pdfLink,
+
+            applyLink,
+
+            lastDate,
+
+            createdBy:req.user.id
+
+        });
+
+
+        res.status(201).json({
+            success:true,
+            message:"Post created successfully",
+            post
+        });
+
+
+    } catch(error){
+
+        res.status(500).json({
+            success:false,
+            message:error.message
+        });
+
+    }
+}
 
 //getAll Post with Pagination
 export const getPosts = async (req, res) => {
