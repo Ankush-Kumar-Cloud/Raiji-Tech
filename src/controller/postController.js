@@ -13,7 +13,8 @@ export const createPosts = async (req,res)=>{
             thumbnail,
             pdfLink,
             applyLink,
-            lastDate
+            lastDate,
+            status
         } = req.body;
 
 
@@ -46,12 +47,17 @@ export const createPosts = async (req,res)=>{
             content,
 
             thumbnail,
+            thumbnailPublicId,
+
 
             pdfLink,
+            pdfPublicId,
 
             applyLink,
 
             lastDate,
+
+            status,
 
             createdBy:req.user.id
 
@@ -183,6 +189,66 @@ export const deletePost = async (req, res) => {
     res.status(200).json({
       success: false,
       message: "Post Deleted Successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+
+export const toggleFeaturedPost = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const post = await Post.findById(id);
+
+    if (!post) {
+      return res.status(404).json({
+        success: false,
+        message: "Post not found",
+      });
+    }
+
+    post.isFeatured = !post.isFeatured;
+
+    await post.save();
+
+    res.status(200).json({
+      success: true,
+      message: post.isFeatured
+        ? "Post added to featured"
+        : "Post removed from featured",
+      isFeatured: post.isFeatured,
+      post,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+
+export const getFeaturedPosts = async (req, res) => {
+  try {
+    const posts = await Post.find({
+      status: "published",
+      isFeatured: true,
+    })
+      .populate("category", "name slug")
+      .sort({ createdAt: -1 })
+      .limit(10);
+
+    res.status(200).json({
+      success: true,
+      total: posts.length,
+      posts,
     });
   } catch (error) {
     res.status(500).json({

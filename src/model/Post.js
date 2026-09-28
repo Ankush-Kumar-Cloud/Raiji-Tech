@@ -22,9 +22,25 @@ const postSchema = new mongoose.Schema(
 
     content: String,
 
-    thumbnail: String,
+    thumbnail: {
+      type: String,
+      default: "",
+    },
 
-    pdfLink: String,
+    thumbnailPublicId: {
+      type: String,
+      default: "",
+    },
+
+    pdfLink: {
+      type: String,
+      default: "",
+    },
+
+    pdfPublicId: {
+      type: String,
+      default: "",
+    },
 
     applyLink: String,
 

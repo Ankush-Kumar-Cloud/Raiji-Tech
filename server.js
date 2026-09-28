@@ -22,7 +22,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/jobs", jobRouter);
-
 app.use("/api/auth", userRouter);
 
 app.use("/api/categories", categoryRouter)
